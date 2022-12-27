@@ -102,7 +102,7 @@ class SongFragment : Fragment() {
                     result.data?.let {
                         if (currentPlayingSong == null && it.isNotEmpty()){
                             currentPlayingSong = it[0]
-                            updateTitle(currentPlayingSong!!)
+                            updateTitle(it[0])
                         }
                     }
                 }
@@ -122,7 +122,7 @@ class SongFragment : Fragment() {
             )
             binding.seekBar.progress = it?.position?.toInt() ?: 0
         }
-        songViewModel.curPlayerPosition.observe(viewLifecycleOwner){
+       songViewModel.curPlayerPosition.observe(viewLifecycleOwner){
             if (toUpdateSeekBar){
                 binding.seekBar.progress = it.toInt()
                 setCurrentPlayerTimeToTextView(it)

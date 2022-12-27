@@ -4,10 +4,12 @@ import android.media.session.PlaybackState
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.RequestManager
 import com.example.notspotify.R
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         subscribeToObservers()
+        val navHostFragment = R.id.navHostFragment
+
 
         binding.vpSong.apply {
             adapter = swipeAdapter
@@ -53,7 +57,9 @@ class MainActivity : AppCompatActivity() {
             })
         }
         swipeAdapter.setOnItemClickListener {
-            findNavController(R.id.navHostFragment).navigate(R.id.globalActionToSongFragment)
+           findNavController(navHostFragment).navigate(R.id.globalActionToSongFragment)
+
+
         }
 
         binding.ivPlayPause.setOnClickListener {
@@ -61,27 +67,28 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.playOrToggleSong(it, true)
             }
         }
-        findNavController(R.id.navHostFragment).addOnDestinationChangedListener{_,destination,_ ->
+
+        findNavController(navHostFragment).addOnDestinationChangedListener{_,destination,_ ->
             when(destination.id){
                 R.id.songFragment -> hideBottomBar()
                 R.id.homeFragment -> showBottomBar()
-                else -> showBottomBar()
+                else -> hideBottomBar()
             }
         }
 
     }
     private fun hideBottomBar(){
         binding.apply {
-            ivCurSongImage.isVisible = false
-            vpSong.isVisible = false
-            ivPlayPause.isVisible = false
+            ivCurSongImage.visibility = View.INVISIBLE
+            vpSong.visibility = View.INVISIBLE
+            ivPlayPause.visibility = View.INVISIBLE
         }
     }
     private fun showBottomBar(){
         binding.apply {
-            ivCurSongImage.isVisible = true
-            vpSong.isVisible = true
-            ivPlayPause.isVisible = true
+            ivCurSongImage.visibility = View.VISIBLE
+            vpSong.visibility = View.VISIBLE
+            ivPlayPause.visibility = View.VISIBLE
         }
     }
 

@@ -8,6 +8,7 @@ import com.example.notspotify.exoplayer.MusicService
 import com.example.notspotify.exoplayer.MusicServiceConnection
 import com.example.notspotify.exoplayer.currentPlaybackPosition
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +35,7 @@ class SongViewModel @Inject constructor(
                     _curPlayerPosition.postValue(position!!)
                     _curSongDuration.postValue(MusicService.currentSongDuration)
                 }
+                delay(100)
             }
         }
     }

@@ -37,6 +37,9 @@ class SwipeAdapter : ListAdapter<Track, SwipeAdapter.OurViewHolder>(Diffcallback
     override fun onBindViewHolder(holder: OurViewHolder, position: Int) {
         val songPosition = getItem(position)
         holder.bind(songPosition)
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.let { it(songPosition) }
+        }
     }
 
     private var onItemClickListener:((Track)->Unit)? = null
